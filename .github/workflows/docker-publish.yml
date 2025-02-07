@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - master 
+
+jobs:
+  ci:
+    permissions:
+      contents: read
+      packages: write
+    uses: nobitacnt-demo/devops-actions/.github/workflows/docker-image.yml@master
+    with:
+      registry: ghcr.io
+      repository: ghcr.io/${{ github.repository }}
+      branch: ${{ github.ref_name }}
+    secrets:
+      docker-username: ${{ github.actor }}
+      docker-password: ${{ secrets.GITHUB_TOKEN }}
